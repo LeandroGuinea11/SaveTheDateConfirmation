@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save the Date - Jacqueline & Mario</title>
+
+    <meta property="og:title" content="¡Jacqueline & Mario se casan!">
+    <meta property="og:description" content="Nos encantaría que nos acompañes en este día tan especial. Haz clic para ver los detalles y confirmar tu asistencia.">
     
+    <meta property="og:image" content="https://tu-sitio.vercel.app/imagenes/foto-portada.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <meta property="og:url" content="https://tu-sitio.vercel.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="¡Jacqueline & Mario se casan!">
+    <meta name="twitter:description" content="Nos encantaría que nos acompañes en este día tan especial. Haz clic para ver los detalles y confirmar tu asistencia.">
+    <meta name="twitter:image" content="https://tu-sitio.vercel.app/imagenes/foto-portada.jpg">
+
     <link rel="icon" type="image/png" href="imagenes/iniciales.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -136,7 +152,10 @@
             color: #ffffff;
             line-height: 1.2;
             white-space: nowrap;
-            
+            /* Ajuste para pantallas pequeñas */
+            max-width: 90vw;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Esto pondrá "..." si el nombre llega a ser demasiado largo */
         }
 
         .envelope-wrapper {
@@ -266,7 +285,7 @@
         .details-banner {
             width: 100%;
             flex: 0 0 auto; 
-            padding: 4px 20px; 
+            padding: 30px 20px 45px 20px; 
             text-align: center;
             
             /* 1. Ponemos la imagen primero (capa inferior) */
@@ -472,8 +491,14 @@
             font-size: 0.9rem;
             line-height: 1.5;
             color: #555;
-            margin: 15px 0;
-            max-width: 90%;
+            text-align: center;
+            align-items: center; 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 300px;
         }
 
         .btn-confirm { 
@@ -593,12 +618,7 @@
 
                     <p class="rsvp-info">Por favor confirma la asistencia indicando el nombre de cada persona que asistirá, su respuesta nos ayudara a preparar cada detalle para ustedes.</p>
 
-                    <div class="guest-list">
-                        <label><input type="checkbox" name="guest" value="Enestro Cáceres"> Enestro Cáceres</label>
-                        <label><input type="checkbox" name="guest" value="Maritza de Cáceres"> Maritza de Cáceres</label>
-                        <label><input type="checkbox" name="guest" value="Anthony Cáceres"> Anthony Cáceres</label>
-                        <label><input type="checkbox" name="guest" value="Alvaro Ernesto Cáceres"> Alvaro Ernesto Cáceres</label>
-                        <label><input type="checkbox" name="guest" value="Ana Montenegro"> Ana Montenegro</label>
+                    <div class="guest-list" id="guest-list-container">
                     </div>
 
                     <p class="rsvp-info">Les agradeceriamos confirmar asistencia a más tardar el 31 de Agosto de 2026. Si no recibimos respuesta posterior a esa fecha entenderemos que no podran acompñarnos en esta ocasión.</p>
@@ -628,6 +648,39 @@
 
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        // Base de datos de invitados: Puedes agregar a todos aquí
+            const dataInvitados = {
+                "1": ["Enestro Cáceres", "Maritza de Cáceres", "Anthony Cáceres", "Alvaro Ernesto Cáceres", "Ana Montenegro"],
+                "2": ["Amilcar Luna", "Veronica Luna", "Natali Luna"],
+                "3": ["Maria de Jesus Peñate", "Douglas Urquilla", "Eva de Luna", "Alejandra Urquilla", "Andrea Urquilla", "Hija Alejandra"],
+                "4": ["Carmen Elizabeth Batres", "Rosario Batres", "Rosa Maria Batres.", "Acompañante"],
+                "5": ["Sandra Patricia Caceres", "Rosa Caceres", "Lourdes Caceres", "Isabela Caceres"],
+                "6": ["Jose Alejandro Arias", "Aida de Arias"],
+                "7": ["Concepcion Gonzalez", "Acompañante 1", "Acompañante 2"],
+                "8": ["Sonia Suria", "Esposo"],
+            };
+
+            function cargarInvitados() {
+                // Obtiene el ID de la URL: ej: invitacion.html?id=1
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get('id');
+                const container = document.getElementById('guest-list-container');
+
+                if (id && dataInvitados[id]) {
+                    const invitados = dataInvitados[id];
+                    invitados.forEach(nombre => {
+                        const label = document.createElement('label');
+                        label.innerHTML = `<input type="checkbox" name="guest" value="${nombre}"> ${nombre}`;
+                        container.appendChild(label);
+                    });
+                } else {
+                    container.innerHTML = "<p>Invitado no encontrado. Por favor, contacta a los novios.</p>";
+                }
+            }
+
+            // Ejecutar al cargar la página
+            window.onload = cargarInvitados;
 
         function scrollToForm() {
             const formSection = document.getElementById('form-section');
