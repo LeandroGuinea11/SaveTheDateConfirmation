@@ -659,6 +659,9 @@
                 "6": ["Jose Alejandro Arias", "Aida de Arias"],
                 "7": ["Concepcion Gonzalez", "Acompañante 1", "Acompañante 2"],
                 "8": ["Sonia Suria", "Esposo"],
+                "9": ["Danilo Posada", "Acompañante"],
+                "10": ["Andres Carrillo", "Acompañante"],
+                "11": ["Patrick Ramos", "Acompañante"],
             };
 
             function cargarInvitados() {
@@ -713,7 +716,7 @@
                 return;
             }
 
-            const phoneNumber = "50370827859"; // CAMBIA POR TU NÚMERO
+            const phoneNumber = "50372967567"; // CAMBIA POR TU NÚMERO
             const message = `Respuesta: ${userResponse}. Invitados: ${selectedGuests.join(", ")}`;
             window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
